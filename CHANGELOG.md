@@ -3,7 +3,7 @@
 Formato: una sección por versión (`## x.y.z — AAAA-MM-DD`, o `— sin publicar`
 mientras se desarrolla). Flujo completo en [docs/FLUJO.md](docs/FLUJO.md).
 
-## 1.0.0 — sin publicar
+## 1.0.0 — 2026-10-21
 
 Primera versión: el libro de visitas de la Cripto Cantina para el Challenge #1
 de Stellar Sessions.
