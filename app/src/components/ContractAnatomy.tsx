@@ -12,25 +12,40 @@ const CODE: { text: string; part?: Part }[] = [
 	{ text: "      -> Result<u32, Error> {" },
 	{ text: "    autor.require_auth();", part: "auth" },
 	{ text: "" },
-	{ text: "    if mensaje.len() == 0 { return Err(Error::MensajeVacio) }", part: "valida" },
-	{ text: "    if mensaje.len() > 280 { return Err(Error::MensajeMuyLargo) }", part: "valida" },
+	{
+		text: "    if mensaje.len() == 0 { return Err(Error::MensajeVacio) }",
+		part: "valida",
+	},
+	{
+		text: "    if mensaje.len() > 280 { return Err(Error::MensajeMuyLargo) }",
+		part: "valida",
+	},
 	{ text: "    if storage.has(&Clave::Autor(autor)) {", part: "valida" },
 	{ text: "      return Err(Error::YaFirmaste)", part: "valida" },
 	{ text: "    }", part: "valida" },
 	{ text: "" },
 	{ text: "    let id = Self::total(env);", part: "guarda" },
-	{ text: "    let firma = Firma { id, autor, mensaje, ledger, timestamp };", part: "guarda" },
+	{
+		text: "    let firma = Firma { id, autor, mensaje, ledger, timestamp };",
+		part: "guarda",
+	},
 	{ text: "    storage.set(&Clave::Firma(id), &firma);", part: "guarda" },
 	{ text: "    storage.set(&Clave::Autor(autor), &id);", part: "guarda" },
 	{ text: "    storage.extend_ttl(…);  // paga la «renta»", part: "guarda" },
 	{ text: "    instance.set(&Clave::Total, &(id + 1));", part: "guarda" },
 	{ text: "" },
-	{ text: "    NuevaFirma { autor, id, mensaje }.publish(&env);", part: "evento" },
+	{
+		text: "    NuevaFirma { autor, id, mensaje }.publish(&env);",
+		part: "evento",
+	},
 	{ text: "    Ok(id)" },
 	{ text: "  }" },
 	{ text: "" },
 	{ text: "  pub fn listar(env: Env) -> Vec<Firma> {", part: "listar" },
-	{ text: "    (0..total).map(|id| storage.get(&Clave::Firma(id)))", part: "listar" },
+	{
+		text: "    (0..total).map(|id| storage.get(&Clave::Firma(id)))",
+		part: "listar",
+	},
 	{ text: "  }", part: "listar" },
 	{ text: "}" },
 ]
@@ -44,10 +59,10 @@ const PARTS: { id: Part; n: string; title: string; body: React.ReactNode }[] = [
 			<>
 				<p>
 					<code>autor</code> es solo un parámetro: cualquiera podría poner la
-					dirección de otra persona. <code>require_auth()</code> le pide al
-					host de Soroban que verifique que <strong>esa</strong> dirección
-					autorizó exactamente esta llamada (mismo contrato, misma función,
-					mismos argumentos).
+					dirección de otra persona. <code>require_auth()</code> le pide al host
+					de Soroban que verifique que <strong>esa</strong> dirección autorizó
+					exactamente esta llamada (mismo contrato, misma función, mismos
+					argumentos).
 				</p>
 				<p>
 					Si la firma no está, el contrato se detiene ahí y la transacción
@@ -69,8 +84,8 @@ const PARTS: { id: Part; n: string; title: string; body: React.ReactNode }[] = [
 				</p>
 				<p>
 					El cliente TypeScript generado conoce esos códigos, así que la app
-					puede mostrarte «ya firmaste» en vez de un <code>#1</code> críptico.
-					Y como la simulación falla antes de pedirte la firma, no pagas nada.
+					puede mostrarte «ya firmaste» en vez de un <code>#1</code> críptico. Y
+					como la simulación falla antes de pedirte la firma, no pagas nada.
 				</p>
 			</>
 		),
@@ -82,9 +97,10 @@ const PARTS: { id: Part; n: string; title: string; body: React.ReactNode }[] = [
 		body: (
 			<>
 				<p>
-					Soroban tiene tres tipos de storage. Aquí el contador <code>Total</code>{" "}
-					vive en <em>instance</em> (viaja con el contrato) y cada firma en{" "}
-					<em>persistent</em>, bajo su propia clave <code>Firma(id)</code>.
+					Soroban tiene tres tipos de storage. Aquí el contador{" "}
+					<code>Total</code> vive en <em>instance</em> (viaja con el contrato) y
+					cada firma en <em>persistent</em>, bajo su propia clave{" "}
+					<code>Firma(id)</code>.
 				</p>
 				<p>
 					Los datos on-chain pagan <strong>renta</strong>: tienen un TTL en
@@ -101,8 +117,8 @@ const PARTS: { id: Part; n: string; title: string; body: React.ReactNode }[] = [
 		body: (
 			<>
 				<p>
-					<code>NuevaFirma</code> se publica con el tema <code>"firma"</code> y la
-					dirección del autor. Los eventos no se guardan en el estado del
+					<code>NuevaFirma</code> se publica con el tema <code>"firma"</code> y
+					la dirección del autor. Los eventos no se guardan en el estado del
 					contrato, pero quedan en el resultado de la transacción y el RPC los
 					indexa.
 				</p>
@@ -125,8 +141,8 @@ const PARTS: { id: Part; n: string; title: string; body: React.ReactNode }[] = [
 					lee el resultado: sin wallet, sin comisión, instantáneo.
 				</p>
 				<p>
-					Regla práctica: <em>leer = simular</em>, <em>escribir = firmar y
-					enviar</em>.
+					Regla práctica: <em>leer = simular</em>,{" "}
+					<em>escribir = firmar y enviar</em>.
 				</p>
 			</>
 		),
