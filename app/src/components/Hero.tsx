@@ -8,9 +8,7 @@ export const Hero = () => {
 	return (
 		<section id="top" className="hero">
 			<div className="container hero__inner">
-				<p className="eyebrow hero__eyebrow">
-					Challenge #1 · Stellar Sessions
-				</p>
+				<p className="eyebrow hero__eyebrow">Challenge #1 · Stellar Sessions</p>
 
 				<h1 className="hero__title">
 					<span className="hero__line">El libro de visitas de la</span>
@@ -21,9 +19,9 @@ export const Hero = () => {
 
 				<p className="hero__lead">
 					Conecta tu wallet, deja un mensaje y fírmalo con tu llave. Queda
-					grabado en un contrato de <strong>Stellar</strong> para siempre (bueno,
-					mientras alguien pague su renta 😉). Y de paso, entiende qué pasa en
-					cada paso.
+					grabado en un contrato de <strong>Stellar</strong> para siempre
+					(bueno, mientras alguien pague su renta 😉). Y de paso, entiende qué
+					pasa en cada paso.
 				</p>
 
 				<div className="hero__actions">
