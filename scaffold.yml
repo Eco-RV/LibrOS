@@ -31,6 +31,13 @@ networks:
     # local ones, as you would for mainnet.
     accounts: [testnet-user]
 
+  # LibrOS: `testnet` = production (main) and `staging` = dev_main + Vercel
+  # Previews. Both are fixed testnet deployments, see docs/FLUJO.md.
+  # Build for it with STELLAR_NETWORK=staging.
+  staging:
+    extends: testnet
+    accounts: [testnet-user]
+
   # To redeploy freely on testnet while developing, add a separate network
   # that opts in, and build for it with STELLAR_NETWORK=testnet-dev:
   # testnet-dev:
@@ -56,7 +63,12 @@ contracts:
         type: workspace
         source: libro-visitas # nombre del crate
 
-      # Testnet: el despliegue revisado del challenge
+      # Producción (main, Vercel Production): el despliegue del challenge
       testnet:
         type: contract
         source: CASLUPVPQOKBZFWRZLOTPSE5SY56E5JS7YFW2XL7ZKIN7NFLFD2ZDOBQ
+
+      # Staging (dev_main, Vercel Previews): mismo WASM, datos aparte
+      staging:
+        type: contract
+        source: CDQPDFBMJX7GYP5N3WCOSRNO3FXUUKFVMLGTXJQD5WSRK7HMMPHN53W6

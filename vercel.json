@@ -1,0 +1,7 @@
+{
+	"$schema": "https://openapi.vercel.sh/vercel.json",
+	"installCommand": "node scripts/ci-clients.mjs && npm install --no-audit --no-fund",
+	"buildCommand": "node scripts/ci-clients.mjs build && npm run build",
+	"outputDirectory": "app/dist",
+	"rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}

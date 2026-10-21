@@ -1,0 +1,41 @@
+# Checks on every PR to dev_main/main (and pushes to them). See docs/FLUJO.md.
+name: CI
+
+on:
+  pull_request:
+    branches: [dev_main, main]
+  push:
+    branches: [dev_main, main]
+
+jobs:
+  contracts:
+    name: Contrato (cargo test + fmt)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # rust-toolchain.toml pins the version; rustup installs it on first use.
+      - run: rustup show && rustup component add rustfmt
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo test -p libro-visitas
+      - run: cargo fmt --all -- --check
+      - run: cargo build -p libro-visitas --target wasm32v1-none --release
+
+  app:
+    name: App (typecheck + lint + formato + build)
+    runs-on: ubuntu-latest
+    env:
+      # Clients are generated from the STAGING contract, like the Vercel Previews.
+      PUBLIC_LIBRO_VISITAS_CONTRACT_ID: CDQPDFBMJX7GYP5N3WCOSRNO3FXUUKFVMLGTXJQD5WSRK7HMMPHN53W6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: node scripts/ci-clients.mjs
+      - run: npm install --no-audit --no-fund
+      - run: node scripts/ci-clients.mjs build
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run format:check
+      - run: npm run build
