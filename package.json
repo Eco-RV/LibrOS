@@ -1,0 +1,24 @@
+{
+	"name": "libros",
+	"version": "0.0.0",
+	"private": true,
+	"scripts": {
+		"dev": "npm start",
+		"prestart": "node scripts/dev-guard.mjs",
+		"start": "npm start --workspace app",
+		"lint": "npm run lint --workspaces --if-present",
+		"format": "prettier . --write",
+		"format:check": "prettier . --check",
+		"test": "cargo test -p libro-visitas"
+	},
+	"workspaces": [
+		"app",
+		"app-lib",
+		"app-lib/clients/*"
+	],
+	"devDependencies": {
+		"prettier": "^3.8.3"
+	},
+	"prettier": "@theahaco/ts-config/prettier",
+	"packageManager": "npm@11.19.0"
+}

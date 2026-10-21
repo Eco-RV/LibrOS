@@ -1,0 +1,47 @@
+# stellar/soroban/Rust output
+target
+.soroban
+
+# what `stellar scaffold build` deployed from this checkout. The directory
+# ignores itself for git; listing it here keeps Prettier out of it too
+.scaffold
+
+# test snapshot folders from sample contracts
+test_snapshots
+
+# build output
+dist
+dist-ssr
+
+# dependencies
+node_modules/
+
+# logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# environment variables
+.env
+.env.*
+!.env.example
+
+# easy way to create temporary local-only files and folders
+*.local.*
+
+# macOS-specific files
+.DS_Store
+
+# generated contract bindings + clients (Binding packages and flattened index.ts)
+app-lib/clients/*
+!app-lib/clients/.gitkeep
+
+# Agent/editor scratch
+.claude/
+
+# TypeScript incremental build info
+*.tsbuildinfo

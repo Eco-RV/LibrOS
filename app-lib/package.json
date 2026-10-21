@@ -1,0 +1,15 @@
+{
+  "name": "@stellar-scaffold/app-lib",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./index.ts",
+    "./styles.css": "./styles.css",
+    "./clients": "./clients/index.ts"
+  },
+  "dependencies": {
+    "@creit.tech/stellar-wallets-kit": "^2.5.0",
+    "@stellar/stellar-sdk": "^16.1.0"
+  }
+}
