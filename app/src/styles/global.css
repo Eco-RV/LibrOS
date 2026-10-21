@@ -152,7 +152,11 @@ code {
 	--c: 255 159 28;
 	position: absolute;
 	border-radius: 50%;
-	background: radial-gradient(closest-side, rgb(var(--c) / 0.55), rgb(var(--c) / 0) 100%);
+	background: radial-gradient(
+		closest-side,
+		rgb(var(--c) / 0.55),
+		rgb(var(--c) / 0) 100%
+	);
 	opacity: 0.6;
 	will-change: transform;
 }

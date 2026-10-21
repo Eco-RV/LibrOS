@@ -29,9 +29,9 @@ export const Guestbook = () => {
 					<p className="eyebrow">Leído directo del contrato con listar()</p>
 					<h2 className="section__title">El libro</h2>
 					<p className="muted">
-						Leer es gratis: la app solo <em>simula</em> la llamada contra el RPC,
-						sin wallet ni comisión. Las firmas nuevas aparecen solas gracias al
-						evento <code>firma</code>.
+						Leer es gratis: la app solo <em>simula</em> la llamada contra el
+						RPC, sin wallet ni comisión. Las firmas nuevas aparecen solas
+						gracias al evento <code>firma</code>.
 					</p>
 					<button
 						className="btn btn--ghost btn--small"
@@ -115,7 +115,8 @@ const Page = ({
 				<div className="page__meta">
 					<span className="mono">{shortAddress(firma.autor)}</span>
 					<span className="muted">
-						{fecha(firma.timestamp)} · ledger {firma.ledger.toLocaleString("es")}
+						{fecha(firma.timestamp)} · ledger{" "}
+						{firma.ledger.toLocaleString("es")}
 					</span>
 				</div>
 			</footer>

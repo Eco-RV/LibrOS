@@ -89,7 +89,13 @@ export const Journey = ({ state }: { state: JourneyState }) => {
 					{live ? "En vivo · tu transacción" : "Así viaja una firma"}
 				</p>
 				<span className={`pill ${live ? "pill--live" : ""}`}>
-					{live ? (error ? "Falló" : finished ? "Confirmada" : "En curso") : "Demo"}
+					{live
+						? error
+							? "Falló"
+							: finished
+								? "Confirmada"
+								: "En curso"
+						: "Demo"}
 				</span>
 			</div>
 

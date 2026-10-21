@@ -2,7 +2,13 @@ import { useMemo } from "react"
 import { sealFor } from "../lib/identicon"
 
 /** A wax-seal style identicon derived from a Stellar address. */
-export const Seal = ({ address, size = 44 }: { address: string; size?: number }) => {
+export const Seal = ({
+	address,
+	size = 44,
+}: {
+	address: string
+	size?: number
+}) => {
 	const seal = useMemo(() => sealFor(address), [address])
 	const id = `seal-${address.slice(-8)}`
 	return (
@@ -26,7 +32,14 @@ export const Seal = ({ address, size = 44 }: { address: string; size?: number })
 				d="M22 1.5l4.1 3 5-.6 2.3 4.5 4.6 2.1-.5 5 3 4.1-3 4.1.5 5-4.6 2.1-2.3 4.5-5-.6-4.1 3-4.1-3-5 .6-2.3-4.5-4.6-2.1.5-5-3-4.1 3-4.1-.5-5 4.6-2.1 2.3-4.5 5 .6z"
 				fill={`url(#${id})`}
 			/>
-			<circle cx="22" cy="22" r="13.5" fill="none" stroke="rgba(255,255,255,.35)" strokeWidth="1" />
+			<circle
+				cx="22"
+				cy="22"
+				r="13.5"
+				fill="none"
+				stroke="rgba(255,255,255,.35)"
+				strokeWidth="1"
+			/>
 			{seal.cells.map((on, i) =>
 				on ? (
 					<rect

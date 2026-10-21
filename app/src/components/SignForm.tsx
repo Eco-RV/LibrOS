@@ -38,8 +38,13 @@ export const SignForm = ({
 }: {
 	onJourney: (s: JourneyState) => void
 }) => {
-	const { address, balances, networkPassphrase, signTransaction, updateBalances } =
-		useWallet()
+	const {
+		address,
+		balances,
+		networkPassphrase,
+		signTransaction,
+		updateBalances,
+	} = useWallet()
 	const queryClient = useQueryClient()
 	const [mensaje, setMensaje] = useState("")
 	const [phase, setPhase] = useState<Phase>({ kind: "idle" })
@@ -73,7 +78,9 @@ export const SignForm = ({
 		}
 
 		setPhase({ kind: "working" })
-		document.getElementById("viaje")?.scrollIntoView({ behavior: "smooth", block: "nearest" })
+		document
+			.getElementById("viaje")
+			?.scrollIntoView({ behavior: "smooth", block: "nearest" })
 
 		try {
 			// 1 + 2 · build the invocation and simulate it against the RPC
@@ -84,7 +91,10 @@ export const SignForm = ({
 				{ autor: address, mensaje: texto },
 				{ publicKey: address },
 			)
-			const sim = tx.result as { isErr?: () => boolean; unwrapErr?: () => unknown }
+			const sim = tx.result as {
+				isErr?: () => boolean
+				unwrapErr?: () => unknown
+			}
 			if (sim?.isErr?.()) throw sim.unwrapErr?.()
 			go(2, { simular: describeSimulation(tx) })
 
@@ -99,22 +109,34 @@ export const SignForm = ({
 				},
 			})
 			clearTimeout(enLedger)
-			const res = sent.result as { isErr?: () => boolean; unwrapErr?: () => unknown; unwrap?: () => number }
+			const res = sent.result as {
+				isErr?: () => boolean
+				unwrapErr?: () => unknown
+				unwrap?: () => number
+			}
 			if (res?.isErr?.()) throw res.unwrapErr?.()
 
 			const hash = sent.sendTransactionResponse?.hash
-			const ledger = sent.getTransactionResponse && "ledger" in sent.getTransactionResponse
-				? sent.getTransactionResponse.ledger
-				: undefined
+			const ledger =
+				sent.getTransactionResponse && "ledger" in sent.getTransactionResponse
+					? sent.getTransactionResponse.ledger
+					: undefined
 			const id = res?.unwrap?.()
 			go(5, {
-				ledger: ledger ? `Incluida en el ledger #${ledger.toLocaleString("es")}` : undefined,
+				ledger: ledger
+					? `Incluida en el ledger #${ledger.toLocaleString("es")}`
+					: undefined,
 			})
 
 			// 5 · the event fired; re-read the book
 			await queryClient.invalidateQueries({ queryKey: GUESTBOOK_KEY })
-			await queryClient.invalidateQueries({ queryKey: ["libro-visitas", "firma_de", address] })
-			go(6, { evento: id !== undefined ? `Evento NuevaFirma · página #${id}` : undefined })
+			await queryClient.invalidateQueries({
+				queryKey: ["libro-visitas", "firma_de", address],
+			})
+			go(6, {
+				evento:
+					id !== undefined ? `Evento NuevaFirma · página #${id}` : undefined,
+			})
 			setPhase({ kind: "ok", hash, id })
 			setMensaje("")
 			void updateBalances()
@@ -155,7 +177,10 @@ export const SignForm = ({
 						<li>Conéctala aquí.</li>
 						<li>Escribe, firma y mira el viaje →</li>
 					</ol>
-					<button className="btn btn--amber btn--big" onClick={() => void connectWallet()}>
+					<button
+						className="btn btn--amber btn--big"
+						onClick={() => void connectWallet()}
+					>
 						Conectar wallet
 					</button>
 				</div>
@@ -165,17 +190,29 @@ export const SignForm = ({
 						<Seal address={address} size={56} />
 						<div>
 							<strong>Ya firmaste el libro</strong>
-							<p className="muted">Página #{firmaPrevia.id} · el contrato solo acepta una por dirección.</p>
+							<p className="muted">
+								Página #{firmaPrevia.id} · el contrato solo acepta una por
+								dirección.
+							</p>
 						</div>
 					</div>
-					<blockquote className="handwritten">“{firmaPrevia.mensaje}”</blockquote>
+					<blockquote className="handwritten">
+						“{firmaPrevia.mensaje}”
+					</blockquote>
 					{phase.kind === "ok" && <Sparks />}
 					{phase.kind === "ok" && phase.hash && (
-						<a className="link" href={explorerTx(phase.hash)} target="_blank" rel="noreferrer">
+						<a
+							className="link"
+							href={explorerTx(phase.hash)}
+							target="_blank"
+							rel="noreferrer"
+						>
 							Ver tu transacción en Stellar Expert ↗
 						</a>
 					)}
-					<a href="#libro" className="btn btn--ghost">Ver el libro ↓</a>
+					<a href="#libro" className="btn btn--ghost">
+						Ver el libro ↓
+					</a>
 				</div>
 			) : (
 				<form
@@ -187,15 +224,22 @@ export const SignForm = ({
 				>
 					{wrongNetwork && (
 						<p className="callout callout--warn">
-							Tu wallet está en otra red. Cámbiala a <strong>Testnet</strong> para firmar.
+							Tu wallet está en otra red. Cámbiala a <strong>Testnet</strong>{" "}
+							para firmar.
 						</p>
 					)}
 					{sinFondos && (
 						<div className="callout">
 							<span>
-								Tu cuenta necesita un poco de XLM de prueba para pagar la comisión.
+								Tu cuenta necesita un poco de XLM de prueba para pagar la
+								comisión.
 							</span>
-							<button type="button" className="btn btn--small" onClick={() => void fondear()} disabled={funding}>
+							<button
+								type="button"
+								className="btn btn--small"
+								onClick={() => void fondear()}
+								disabled={funding}
+							>
 								{funding ? "Fondeando…" : "Pedir a Friendbot"}
 							</button>
 						</div>
@@ -216,7 +260,9 @@ export const SignForm = ({
 						/>
 						<span
 							className={`counter ${tooLong ? "is-over" : ""}`}
-							style={{ "--fill": Math.min(bytes / MAX_MENSAJE, 1) } as CSSProperties}
+							style={
+								{ "--fill": Math.min(bytes / MAX_MENSAJE, 1) } as CSSProperties
+							}
 						>
 							<span className="counter__ring" aria-hidden="true" />
 							{bytes}/{MAX_MENSAJE} bytes
@@ -225,7 +271,13 @@ export const SignForm = ({
 
 					<div className="chips" aria-label="Sugerencias">
 						{SUGERENCIAS.map((s) => (
-							<button type="button" key={s} className="chip" onClick={() => setMensaje(s)} disabled={working}>
+							<button
+								type="button"
+								key={s}
+								className="chip"
+								onClick={() => setMensaje(s)}
+								disabled={working}
+							>
 								{s}
 							</button>
 						))}
@@ -263,12 +315,17 @@ const describeSimulation = (tx: unknown) => {
 		simulationData?: { transactionData: Resources | { build: () => Resources } }
 	}
 	const fee = Number(t.simulation?.minResourceFee ?? 0) / 1e7
-	const parts = [`Comisión de recursos ≈ ${fee.toFixed(4)} XLM (incluye la renta del storage)`]
+	const parts = [
+		`Comisión de recursos ≈ ${fee.toFixed(4)} XLM (incluye la renta del storage)`,
+	]
 	try {
 		const data = t.simulationData?.transactionData
 		const xdr = data && "build" in data ? data.build() : data
 		const fp = xdr?.resources().footprint()
-		if (fp) parts.push(`lee ${fp.readOnly().length} · escribe ${fp.readWrite().length} entradas`)
+		if (fp)
+			parts.push(
+				`lee ${fp.readOnly().length} · escribe ${fp.readWrite().length} entradas`,
+			)
 	} catch {
 		// footprint details are a nice-to-have
 	}

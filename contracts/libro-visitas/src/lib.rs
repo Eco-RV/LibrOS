@@ -7,7 +7,7 @@
 #![no_std]
 
 use soroban_sdk::{
-    contract, contracterror, contractevent, contractimpl, contracttype, Address, Env, String, Vec,
+    Address, Env, String, Vec, contract, contracterror, contractevent, contractimpl, contracttype,
 };
 
 #[cfg(test)]

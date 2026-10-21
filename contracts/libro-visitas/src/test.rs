@@ -2,8 +2,8 @@ extern crate std;
 
 use super::*;
 use soroban_sdk::{
-    testutils::{Address as _, AuthorizedFunction, AuthorizedInvocation, Events as _, Ledger},
     Event, IntoVal, Symbol,
+    testutils::{Address as _, AuthorizedFunction, AuthorizedInvocation, Events as _, Ledger},
 };
 
 fn setup() -> (Env, LibroVisitasClient<'static>) {
@@ -76,7 +76,10 @@ fn sin_auth_no_se_puede_firmar() {
     let env = Env::default();
     let id = env.register(LibroVisitas, ());
     let client = LibroVisitasClient::new(&env, &id);
-    client.firmar(&Address::generate(&env), &String::from_str(&env, "suplantación"));
+    client.firmar(
+        &Address::generate(&env),
+        &String::from_str(&env, "suplantación"),
+    );
 }
 
 #[test]
@@ -103,7 +106,11 @@ fn valida_el_mensaje() {
         Err(Ok(Error::MensajeMuyLargo))
     );
     let justo = "a".repeat(MAX_MENSAJE as usize);
-    assert!(client.try_firmar(&ana, &String::from_str(&env, &justo)).is_ok());
+    assert!(
+        client
+            .try_firmar(&ana, &String::from_str(&env, &justo))
+            .is_ok()
+    );
 }
 
 #[test]
